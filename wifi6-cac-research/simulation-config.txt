@@ -1,0 +1,68 @@
+# WiFi 6 Airtime-Based CAC Simulation Configuration
+
+## Simulation Parameters
+
+### Network Configuration
+CHANNEL_WIDTH=80              # MHz (20/40/80/160)
+FREQUENCY_BAND=5              # GHz
+GUARD_INTERVAL=800            # nanoseconds
+SPATIAL_STREAMS=2             # Number of spatial streams
+MCS_INDEX=5                   # Modulation and Coding Scheme (0-11)
+
+### CAC Parameters
+AIRTIME_THRESHOLD=0.80        # 80% threshold for dense environments
+ENABLE_CAC=1                  # 1=enabled, 0=disabled
+
+### Traffic Parameters
+# VoIP (G.711 codec)
+VOIP_PACKET_SIZE=160          # bytes
+VOIP_DATA_RATE=64000          # bps (64 kbps)
+VOIP_INTERVAL=20              # ms
+
+# Video Streaming
+VIDEO_PACKET_SIZE=1200        # bytes
+VIDEO_DATA_RATE=3000000       # bps (3 Mbps average)
+VIDEO_RATE_VARIATION=0.2      # ±20% variation
+
+# Bursty Traffic
+BURSTY_PACKET_SIZE=1400       # bytes
+BURSTY_PEAK_RATE=5000000      # bps (5 Mbps peak)
+BURSTY_DUTY_CYCLE=0.5         # 50% on-off
+
+# Web Browsing
+WEB_PACKET_SIZE=1000          # bytes
+WEB_AVG_RATE=1000000          # bps (1 Mbps average)
+
+### Deployment Parameters
+DEPLOYMENT_RADIUS=15          # meters (dense deployment)
+AP_POSITION_X=0               # meters
+AP_POSITION_Y=0               # meters
+
+### Simulation Parameters
+SIMULATION_TIME=60            # seconds
+WARMUP_TIME=5                 # seconds before metrics collection
+
+### Client Density Scenarios
+# Run simulations with these client counts:
+# 25, 30, 35, 40, 45, 50
+
+### Traffic Mix (percentage of total flows)
+VOIP_PERCENTAGE=40            # 40% VoIP flows
+VIDEO_PERCENTAGE=30           # 30% Video flows
+BURSTY_PERCENTAGE=20          # 20% Bursty flows
+WEB_PERCENTAGE=10             # 10% Web flows
+
+## Output Files
+# For each scenario, the following files are generated:
+# - <prefix>-delay.csv: Per-packet delay measurements
+# - <prefix>-admission.csv: Flow admission decisions
+# - <prefix>-flowmon.csv: FlowMonitor statistics
+# - <prefix>-throughput.csv: Throughput measurements
+
+## Analysis Outputs
+# - throughput_vs_flows.png: Aggregate throughput vs number of flows
+# - delay_vs_flows.png: Average delay vs number of flows by traffic type
+# - blocking_probability.png: Blocking probability vs offered load
+# - voip_delay_cdf.png: CDF of VoIP packet delays
+# - airtime_utilization.png: Airtime breakdown by traffic type
+# - summary_statistics.txt: Detailed numerical results

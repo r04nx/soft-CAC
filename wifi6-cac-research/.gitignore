@@ -1,0 +1,36 @@
+# Build artifacts
+*.o
+*.so
+build/
+.waf*
+.lock-waf*
+
+# LaTeX artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+
+# Python
+__pycache__/
+*.pyc
+
+# Simulation results
+*.pcap
+*.tr
+*.xml
+results/logs/*.log
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store

@@ -1,0 +1,12 @@
+WiFi 6 CAC Demo Results
+=======================
+
+Config: 30 stations, CAC OFF
+Requests: 0
+Admitted: 0
+Blocked: 0
+Blocking: -nan%
+Airtime: 0
+Flows: 30
+Throughput: 39.5592 Mbps
+Avg Delay: 16.7333 ms

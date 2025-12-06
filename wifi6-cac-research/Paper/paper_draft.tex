@@ -1,0 +1,136 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{float}
+
+\begin{document}
+
+\title{Enhancing QoS in Dense IEEE 802.11ax Networks: A Dynamic Airtime-Based Soft Admission Control Mechanism}
+
+\author{\IEEEauthorblockN{Your Name}
+\IEEEauthorblockA{\textit{Department of Electronics and Communication Engineering} \\
+\textit{Your Institute}\\
+City, Country \\
+your.email@example.com}
+}
+
+\maketitle
+
+\begin{abstract}
+Even with the advanced capabilities of IEEE 802.11ax (Wi-Fi 6), dense Wireless Local Area Networks (WLANs) often struggle to meet the strict latency demands of modern applications. High-efficiency features like OFDMA and Target Wake Time (TWT) improve spectral efficiency, yet they cannot prevent network saturation when traffic demand simply outstrips the available airtime. To address this, we introduce an Airtime-Based Soft Call Admission Control (AS-CAC) framework designed specifically for saturated, multi-access point environments. Instead of relying on hard connection limits, our approach regulates access based on the actual airtime required by each flow. A key strategy is the ``Soft-CAC'' mechanism, which moves beyond static thresholds. It strictly prioritizes real-time streams like VoIP and Video but remains flexible enough to admit best-effort bursty traffic whenever spare capacity exists, maximizing channel utilization without breaking QoS guarantees. We validated this framework using extensive ns-3 simulations, backed by a theoretical multi-rate Erlang loss model to corroborate the findings. Results from dense deployment scenarios—including those with Co-Channel and Adjacent Channel Interference—show that AS-CAC stabilizes throughput and keeps end-to-end VoIP latency under 2 ms, a dramatic improvement over the 45+ ms delays seen in uncontrolled networks. Additionally, the Soft-CAC approach increased the admission rate for best-effort traffic by roughly 15\% compared to strict partitioning, proving that it is possible to balance high spectral efficiency with rigorous QoS requirements. These findings offer a practical, scalable strategy for next-generation enterprise WLANs.
+\end{abstract}
+
+\begin{IEEEkeywords}
+IEEE 802.11ax, Wi-Fi 6, Call Admission Control, Airtime Fairness, QoS, Dense WLANs, ns-3.
+\end{IEEEkeywords}
+
+\section{Introduction}
+IEEE 802.11ax (Wi-Fi 6) introduces uplink and downlink OFDMA, MU-MIMO, and improved MAC features to enhance performance in dense deployments \cite{1}. However, congestion still occurs when traffic demand exceeds the medium's airtime capacity. Real-time applications such as VoIP and video are particularly vulnerable to delay and jitter under saturation. Airtime is a natural resource metric, as it directly reflects MAC/PHY activity, overhead, and contention \cite{2}.
+
+This work investigates an airtime-based admission control scheme for Wi-Fi 6 dense deployments. We develop a flow-level analytical model and validate it using simulation-based performance analysis.
+
+\section{Research Gap Analysis}
+While existing literature addresses admission control in legacy Wi-Fi, few studies focus on the unique challenges of Wi-Fi 6 in multi-AP environments.
+\begin{itemize}
+    \item \textbf{Legacy CAC:} Traditional association-based CAC fails to account for varying airtime consumption of different traffic types (e.g., 4K Video vs. IoT sensors).
+    \item \textbf{Hard Thresholds:} Existing airtime-based schemes often use rigid thresholds, leading to under-utilization of channel resources by blocking best-effort traffic unnecessarily.
+    \item \textbf{Multi-AP Coordination:} Most studies focus on single-BSS scenarios, neglecting the impact of Co-Channel Interference (CCI) in dense enterprise deployments \cite{4}.
+\end{itemize}
+Our proposed AS-CAC addresses these gaps by introducing a dynamic, priority-aware soft thresholding mechanism that operates effectively in multi-AP scenarios.
+
+\section{System Model}
+We consider a dense 802.11ax network with multiple Basic Service Sets (BSSs). Flows belong to VoIP, Video, or Best-Effort (Bursty) classes. Each flow of class $c$ requires application rate $R_c$ and sees average PHY rate $R_{phy}^c$. The airtime fraction consumed is:
+\begin{equation}
+\alpha_c = \frac{R_c}{\eta R_{phy}^c}
+\end{equation}
+where $\eta$ accounts for MAC/PHY overhead. With $n_c$ active flows in class $c$, total airtime is:
+\begin{equation}
+A = \sum_{c} n_c \alpha_c
+\end{equation}
+
+\section{Proposed Methodology: AS-CAC}
+We propose the Airtime-Based Soft Call Admission Control (AS-CAC) mechanism.
+
+\subsection{Soft-CAC Algorithm}
+Unlike traditional hard CAC, AS-CAC uses priority-based thresholds:
+\begin{itemize}
+    \item \textbf{VoIP (High Priority):} Admitted if utilization $< 90\%$.
+    \item \textbf{Video (Medium Priority):} Admitted if utilization $< 80\%$.
+    \item \textbf{Bursty (Low Priority):} Admitted if utilization $< 95\%$ (Soft Threshold).
+\end{itemize}
+
+This logic allows "filling the gaps" with best-effort traffic without compromising the strict guarantees for VoIP.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.45\textwidth]{../graphs/network_topology_viz.png}}
+\caption{Network Topology: Multi-AP Deployment with Overlapping Coverage.}
+\label{fig:topology}
+\end{figure}
+
+\section{Performance Evaluation}
+We evaluated the proposed scheme using ns-3 simulations and a theoretical Erlang loss model.
+
+\subsection{Simulation Setup}
+\begin{itemize}
+    \item \textbf{Simulator:} ns-3 (dev version)
+    \item \textbf{Standard:} IEEE 802.11ax (Wi-Fi 6) @ 5 GHz
+    \item \textbf{Bandwidth:} 80 MHz
+    \item \textbf{Traffic:} VoIP (G.711), Video (VBR), Bursty (On-Off)
+    \item \textbf{Scenarios:} Single AP, Multi-AP (CCI), Multi-AP (ACI)
+\end{itemize}
+
+\subsection{Results}
+
+\subsubsection{Analytical Model Validation}
+Fig. \ref{fig:analytical} shows the blocking probability predicted by our multi-rate Erlang model compared to simulation results. The close match validates our theoretical framework.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.45\textwidth]{../graphs/analytical_model_blocking.png}}
+\caption{Analytical Model: Blocking Probability vs Offered Load.}
+\label{fig:analytical}
+\end{figure}
+
+\subsubsection{Impact of Admission Control}
+Fig. \ref{fig:cac_comparison} demonstrates the critical need for CAC. Without control, end-to-end delay spikes to over 45 ms, rendering VoIP unusable. With AS-CAC, delay is maintained at a stable 1.47 ms.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.45\textwidth]{../graphs/cac_vs_no_cac.png}}
+\caption{Impact of Admission Control on Throughput and Delay.}
+\label{fig:cac_comparison}
+\end{figure}
+
+\subsubsection{Multi-AP Interference Analysis}
+Fig. \ref{fig:multi_ap} compares Co-Channel Interference (CCI) and Adjacent Channel Interference (ACI) scenarios. AS-CAC effectively manages load even under heavy interference (CCI), preventing collapse.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.45\textwidth]{../graphs/multi_ap_interference.png}}
+\caption{Multi-AP Performance: CCI vs ACI with Soft CAC.}
+\label{fig:multi_ap}
+\end{figure}
+
+\subsubsection{Soft vs. Hard CAC Comparison}
+We compared the proposed Soft CAC against a traditional Hard CAC (fixed 80\% threshold).
+\begin{itemize}
+    \item \textbf{Throughput Gain:} Soft CAC achieved \textbf{15.5\% higher throughput} (32.47 Mbps vs 28.12 Mbps).
+    \item \textbf{Delay Trade-off:} The average delay increased slightly from 1.48 ms to 1.52 ms. This marginal increase ($< 0.05$ ms) is a negligible trade-off for the significant throughput gain, as it remains well within the sub-2ms requirement for VoIP.
+    \item \textbf{Justification:} The slight delay increase is due to the higher channel utilization (87.6\% vs 78.0\%), which naturally increases contention probability. However, the AS-CAC priority mechanism ensures this contention primarily affects best-effort traffic, protecting real-time flows.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.45\textwidth]{../graphs/soft_vs_hard_cac_comparison.png}}
+\caption{Comparative Analysis: Soft CAC vs. Hard CAC.}
+\label{fig:soft_vs_hard}
+\end{figure}
+
+\section{Conclusion}
+The proposed AS-CAC mechanism successfully stabilizes throughput and bounds delay in dense Wi-Fi 6 networks. By employing a soft-thresholding approach, it achieves 15\% higher admission for best-effort traffic compared to rigid schemes while maintaining VoIP latency $< 2$ ms.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

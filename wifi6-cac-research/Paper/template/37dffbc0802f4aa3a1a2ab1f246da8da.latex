@@ -1,0 +1,534 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{multirow}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+
+Paper Title: Please Make Sure the Length of the Title within Four Lines
+
+Firstname A. Lastname
+\includegraphics[width=0.13403in,height=0.13403in]{vertopal_37dffbc0802f4aa3a1a2ab1f246da8da/media/image1.png}\textsuperscript{1},
+Firstname B. Lastname
+\includegraphics[width=0.13403in,height=0.13403in]{vertopal_37dffbc0802f4aa3a1a2ab1f246da8da/media/image1.png}\textsuperscript{2},
+and Firstname C. Lastname
+\includegraphics[width=0.13403in,height=0.13403in]{vertopal_37dffbc0802f4aa3a1a2ab1f246da8da/media/image1.png}\textsuperscript{2,}*
+
+\textsuperscript{1} Department, Faculty, Institution/University, City,
+Country
+
+\textsuperscript{2} Department, Faculty, Institution/University, City,
+Country
+
+Email: first.author@hostname1.org (F.A.L.); second.author@hostname2.org
+(F.B.L.); third.author@hostname2.org (F.C.L.)
+
+*Corresponding author
+
+\emph{\textbf{Abstract}}---A good abstract is a stand-alone summary of
+the paper, and should summarize the key components of the manuscript.
+Generally, the abstract should be concise and informative within 150-250
+words. The abstract should briefly state the purpose of the research,
+the materials and method, the principal results, and the major
+conclusions. As an abstract is a separate section, it should be a
+self-containing text (no abbreviations, no references, no URLs, no
+undefined concepts, etc.). \footnote{\textsuperscript{~}Manuscript
+  received xx xx 2023; revised xx xx 2023, accepted xx xx 2023.}
+
+\emph{\textbf{Keywords}}---first term, second term, third term, fourth
+term, fifth term, sixth term, seventh term
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+A well-written introduction will provide your study with a context and
+prompt the readers to read the rest of your paper. This section should
+briefly place the study in a broad context and highlight why it is
+important. It should define the purpose of the work and its
+significance. In this section, authors should briefly highlight the main
+developments of their research topic and identify the main gaps that
+need to be addressed. In other words, this section should give an
+overview of your study. The section should be organized as:
+
+\begin{itemize}
+\item
+  \begin{quote}
+  What is known about the broad topic?
+  \end{quote}
+\item
+  \begin{quote}
+  What are the gaps or missing links that need to be addressed?
+  \end{quote}
+\item
+  \begin{quote}
+  What is the significance of addressing those gaps?
+  \end{quote}
+\end{itemize}
+
+The introduction should provide general information about the topic of
+your research and emphasize the main aims of the study. Please ensure
+that you only discuss the main and relevant aspects of the studies that
+have led to your aims. Do not elaborate on them as this should be done
+in the literature review section.
+
+\hypertarget{literature-review}{%
+\section{Literature Review}\label{literature-review}}
+
+This section basically supports the background section by providing
+evidence for the proposed hypothesis. This section should be more
+comprehensive and thoroughly describe all the studies that you have
+mentioned in the background section. It should also elaborate on all
+studies that form evidence for the present study and discuss the current
+trends.
+
+To write this section, you will need to do a thorough literature search
+on different studies that relate to the broad topic of your research.
+This will introduce the readers to the area of your research. It would
+be ideal to organize them thematically and discuss them chronologically
+so that readers are aware of the evolution and progress in the field. In
+other words, separate themes should be discussed chronologically to
+highlight how research in those fields has progressed over time. This
+will highlight what has been done and what are the future directions
+that need to be worked upon.
+
+\hypertarget{materials-and-methods}{%
+\section{Materials and Methods}\label{materials-and-methods}}
+
+A well-scripted methods sections lays the foundation for your research
+by outlining the different methods you used to derive your results. The
+methods used to achieve the objectives must be described precisely and
+in sufficient detail, so as to allow a competent reader to repeat the
+work done by the author.
+
+Bulleted lists look like this:
+
+\begin{itemize}
+\item
+  \begin{quote}
+  First bullet;
+  \end{quote}
+\item
+  \begin{quote}
+  Second bullet;
+  \end{quote}
+\item
+  \begin{quote}
+  Third bullet.
+  \end{quote}
+\end{itemize}
+
+Numbered lists can be added as follows:
+
+\begin{quote}
+(1) First item;
+
+(2) Second item;
+
+(3) Third item.
+\end{quote}
+
+\hypertarget{result-and-discussion}{%
+\section{Result and Discussion}\label{result-and-discussion}}
+
+A well-presented results section coupled with a convincing discussion
+will definitely prove the novelty and importance of your study. It
+should provide a concise and precise description of the experimental
+results, their interpretation, as well as the experimental conclusions
+that can be drawn.
+
+\hypertarget{figures-and-tables-subsection-level-2}{%
+\subsection{Figures and Tables (Subsection Level
+2)}\label{figures-and-tables-subsection-level-2}}
+
+Figures and tables should be inserted in the main text in continuous
+order and should be called out, e.g., Fig. 1 and Table I. Large figures
+and tables may span across both columns. Figure captions should be
+centered below the figures; table captions should be centered above.
+Avoid placing figures and tables before their first mention in the text.
+Use the abbreviation ``Fig. 1,'' even at the beginning of a sentence.
+
+\includegraphics[width=2.65694in,height=2.26944in]{vertopal_37dffbc0802f4aa3a1a2ab1f246da8da/media/image2.png}
+
+Fig. 1. Note how the caption is centered in the column.
+
+To figure axis labels, use words rather than symbols. Do not label axes
+only with units. Do not label axes with a ratio of quantities and units.
+
+Color figures will be appearing only in online publication. All figures
+will be black and white graphs in print publication.
+
+\textsc{TABLE I. Type Sizes for Final Papers}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1222}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.5089}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1615}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2074}}@{}}
+\toprule()
+\multirow{2}{*}{\begin{minipage}[b]{\linewidth}\raggedright
+Type size
+\end{minipage}} &
+\multicolumn{3}{>{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.8778} + 4\tabcolsep}@{}}{%
+\begin{minipage}[b]{\linewidth}\raggedright
+Appearance
+\end{minipage}} \\
+& \begin{minipage}[b]{\linewidth}\raggedright
+Regular
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Bold
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Italic
+\end{minipage} \\
+\midrule()
+\endhead
+6 & Table caption\textsuperscript{1}, table superscripts & & \\
+8 & Section titles, tables, table names, first letters in table
+captions, figure captions, footnotes, text subscripts, and superscripts
+& & \\
+9 & References, authors' biographies & Abstract & \\
+10 & Authors' affiliations, main text, equations, first letters in
+section titles & & Subheading \\
+11 & Authors' names & & \\
+24 & Paper title & & \\
+\bottomrule()
+\end{longtable}
+
+\textsuperscript{1} Tables may have a footer.
+
+\hypertarget{subsection-level-3}{%
+\subsubsection{Subsection (Level 3)}\label{subsection-level-3}}
+
+Here is the content of Subsection (Level 3).
+
+\hypertarget{subsection-level-4}{%
+\paragraph{Subsection (Level 4)}\label{subsection-level-4}}
+
+Here is the content of Subsection (Level 4).
+
+\hypertarget{references}{%
+\subsection{References}\label{references}}
+
+Number citations consecutively in square brackets {[}1{]}. No
+punctuation follows the bracket {[}2{]}. Use ``Author's last name
+{[}3{]}'' at the beginning of a sentence.
+
+In the reference list, give all authors' names; use ``et al.'' if there
+are more than three authors. Papers that have not been published, even
+if they have been submitted for publication, should be cited as
+``unpublished'' {[}4{]}. Papers that have been accepted for publication
+should be cited as ``in press'' {[}5{]}. In a paper title, capitalize
+the first word and all other words except for conjunctions, prepositions
+less than seven letters, and prepositional phrases.
+
+For papers published in translated journals, please give the English
+citation.
+
+For on-line references a URL and time accessed must be given.
+
+\hypertarget{footnotes}{%
+\subsection{Footnotes}\label{footnotes}}
+
+Number footnotes separately in superscripts \textsuperscript{1, 2,
+\ldots{}}. Place the actual footnote at the bottom of the column in
+which it was cited, as in this column. See first page footnote for an
+example.
+
+\hypertarget{abbreviations-and-acronyms}{%
+\subsection{Abbreviations and
+Acronyms}\label{abbreviations-and-acronyms}}
+
+Define abbreviations and acronyms the first time they are used in the
+text, even after they have been defined in the abstract. Do not use
+abbreviations in the title unless they are unavoidable.
+
+\hypertarget{equations}{%
+\subsection{Equations}\label{equations}}
+
+Equations should be centered in the column. The paragraph description of
+the line containing the equation should be set for 6 points before and 6
+points after. Number equations consecutively with equation numbers in
+parentheses flush with the right margin, as in Eq. (1). Italicize Roman
+symbols for quantities and variables, but not Greek symbols. Punctuate
+equations with commas or periods when they are part of a sentence, as in
+
+\(a + b = c\)\includegraphics{vertopal_37dffbc0802f4aa3a1a2ab1f246da8da/media/image3.wmf}
+(1)
+
+Symbols in your equation should be defined before the equation appears
+or immediately following.
+
+\hypertarget{other-recommendations}{%
+\subsection{Other Recommendations}\label{other-recommendations}}
+
+Use either SI (MKS) or CGS as primary units. (SI units are encouraged.)
+If your native language is not English, try to get a native
+English-speaking colleague to proofread your paper.
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+The \textquotesingle conclusions\textquotesingle{} are a key component
+of the paper. It should complement the
+\textquotesingle abstract\textquotesingle{} and is normally used by
+experts to value the paper\textquotesingle s engineering content. A
+conclusion is not merely a summary of the main topics covered or a
+re-statement of your research problem, but a synthesis of key points
+and, if applicable, where you recommend new areas for future research.
+
+\hypertarget{appendix-a-appendix-title}{%
+\subparagraph{Appendix A Appendix
+Title}\label{appendix-a-appendix-title}}
+
+Appendixes, if needed, is numbered by A, B, C... Use two spaces before
+\textsc{Appendix Title}. In the appendices, Figures, Tables, etc. should
+be labeled starting with ``A''---e.g., Figure A1, Figure A2, etc.
+
+\hypertarget{conflict-of-interest}{%
+\subparagraph{Conflict of Interest}\label{conflict-of-interest}}
+
+Please declare whether or not the submitted work was carried out with a
+conflict of interest. If yes, please state any personal, professional or
+financial relationships that could potentially be construed as a
+conflict of interest. If no, please add "The authors declare no conflict
+of interest".
+
+\hypertarget{author-contributions}{%
+\subparagraph{Author Contributions}\label{author-contributions}}
+
+Please state each author\textquotesingle s contribution to this work, it
+can be up to several sentences long and should briefly describe the
+tasks of individual authors. e.g., AB conducted the research; CD
+analyzed the data; AB wrote the paper; ...; all authors had approved the
+final version.
+
+\hypertarget{funding}{%
+\subparagraph{Funding}\label{funding}}
+
+Please add funding information here, e.g., this research was funded by
+NAME OF FUNDER, grant number XX. If there is no funding, this section
+can be removed.
+
+\hypertarget{acknowledgment}{%
+\subparagraph{Acknowledgment}\label{acknowledgment}}
+
+The authors wish to thank A, B, C.
+
+\hypertarget{references-1}{%
+\subparagraph{References}\label{references-1}}
+
+\textbf{(Periodical style)}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  S. Chen, B. Mulgrew, and P. M. Grant, ``A clustering technique for
+  digital communications channel equalization using radial basis
+  function networks,'' \emph{IEEE Trans. on Neural Networks}, vol. 4,
+  pp. 570-578, July 1993.
+\item
+  J. U. Duncombe, ``Infrared navigation --- Part I: An assessment of
+  feasibility,'' \emph{IEEE Trans. Electron Devices}, vol. ED-11, pp.
+  34−39, Jan. 1959.
+\item
+  C. Y. Lin, M. Wu, J. A. Bloom, \emph{et al.}, ``Rotation, scale, and
+  translation resilient public watermarking for images,'' \emph{IEEE
+  Trans. Image Process.}, vol. 10, no. 5, pp. 767−782, May 2001.
+\end{enumerate}
+
+\textbf{(Book style)}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\item
+  A. Cichocki and R. Unbehaven, \emph{Neural Networks for Optimization
+  and Signal Processing}, 1st ed. Chichester, U.K.: Wiley, 1993, ch. 2,
+  pp. 45--47.
+\item
+  W.-K. Chen, \emph{Linear Networks and Systems}, Belmont, CA:
+  Wadsworth, 1993, pp. 123−135.
+\item
+  H. Poor, \emph{An Introduction to Signal Detection and Estimation};
+  New York: Springer-Verlag, 1985, ch. 4.
+\end{enumerate}
+
+\textbf{(Book style with paper title and editor)}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\item
+  R. A. Scholtz, ``The Spread Spectrum Concept,'' in \emph{Multiple
+  Access}, N. Abramson, Ed. Piscataway, NJ: IEEE Press, 1993, ch. 3, pp.
+  121−123.
+\item
+  G. O. Young, ``Synthetic structure of industrial plastics,'' in
+  \emph{Plastics}, 2nd ed. vol. 3, J. Peters, Ed. New York: McGraw-Hill,
+  1964, pp. 15−64.
+\end{enumerate}
+
+\textbf{(Published Conference Proceedings style)}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{8}
+\item
+  S. P. Bingulac, ``On the compatibility of adaptive controllers,'' in
+  \emph{Proc. 4th Annu. Allerton Conf. Circuits and Systems Theory}, New
+  York, 1994, pp. 8−16.
+\item
+  W. D. Doyle, ``Magnetization reversal in films with biaxial
+  anisotropy,'' in \emph{Proc. 1987 INTERMAG Conf.}, 1987, pp.
+  2.2−1−2.2−6.
+\end{enumerate}
+
+\textbf{(Presented Conference Paper style)}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{10}
+\item
+  G. W. Juette and L. E. Zeffanella, ``Radio noise currents n short
+  sections on bundle conductors,'' presented at the IEEE Summer Power
+  Meeting, Dallas, TX, June 22-27, 1990.
+\end{enumerate}
+
+\textbf{(Thesis or Dissertation style)}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{11}
+\item
+  J. Williams, ``Narrow-band analyzer,'' Ph.D. dissertation, Dept.
+  Elect. Eng., Harvard Univ., Cambridge, MA, 1993.
+\item
+  N. Kawasaki, ``Parametric study of thermal and chemical nonequilibrium
+  nozzle flow,'' M.S. thesis, Dept. Electron. Eng., Osaka Univ., Osaka,
+  Japan, 1993.
+\end{enumerate}
+
+\textbf{(Patent style)}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{13}
+\item
+  J. P. Wilkinson, ``Nonlinear resonant circuit devices,'' U.S. Patent 3
+  624 12, July 16, 1990.
+\end{enumerate}
+
+\textbf{(Standards style)}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{14}
+\item
+  Letter Symbols for Quantities, ANSI Standard Y10.5-1968.
+\end{enumerate}
+
+\textbf{(Handbook style)}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{15}
+\item
+  \emph{Transmission Systems for Communications,} 3rd ed., Western
+  Electric Co., Winston-Salem, NC, 1985, pp. 44−60.
+\item
+  \emph{Motorola Semiconductor Data Manual,} Motorola Semiconductor
+  Products Inc., Phoenix, AZ, 1989.
+\end{enumerate}
+
+\textbf{(Journal Online Sources style)}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{17}
+\item
+  R. J. Vidmar. (August 1992). On the use of atmospheric plasmas as
+  electromagnetic reflectors. \emph{IEEE Trans. Plasma Sci.}
+  {[}Online{]}. 21(3)\emph{.} pp. 876--880. Available:
+  http://www.halcyon.com/pub/journals/21ps03-vidmar
+\end{enumerate}
+
+\hypertarget{section}{%
+\subparagraph{}\label{section}}
+
+Copyright © 20XX by the authors. This is an open access article
+distributed under the Creative Commons Attribution License which permits
+unrestricted use, distribution, and reproduction in any medium, provided
+the original work is properly cited
+(\href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}).
+
+\end{document}
