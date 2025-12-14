@@ -1,0 +1,222 @@
+\documentclass{beamer}
+
+% Theme selection
+\usetheme{Madrid}
+\usecolortheme{beaver} % Professional Red/Grey theme
+\usecolortheme{whale}
+
+\setbeamertemplate{navigation symbols}{} % Remove navigation symbols
+\setbeamertemplate{caption}[numbered]
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% Metadata
+\title[Enhancing QoS in IEEE 802.11ax]{Enhancing QoS in Dense IEEE 802.11ax Networks using a Dynamic Airtime-Based Soft Admission Control Mechanism}
+\author[D. Ambawade, R. Pawar]{Dayanand Ambawade \and Rohan Pawar}
+\institute[SPIT]{
+  Department of Computer Science and Engineering\\
+  Sardar Patel Institute of Technology (SPIT)\\
+  Mumbai, India
+}
+\date[ICSCC 2025]{10th International Conference on Systems, Control and Communications (ICSCC 2025)\\Nagoya University, Japan}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Slide 2: Outline
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+% Slide 3: Introduction
+\section{Introduction}
+\begin{frame}{Motivation}
+  \begin{itemize}
+    \setlength\itemsep{1em}
+    \item \textbf{The Challenge:} IEEE 802.11ax (Wi-Fi 6) struggles under saturation in dense environments.
+    \item \textbf{High Latency:} Real-time apps (VoIP) suffer >45ms delays without control.
+    \item \textbf{Existing Solutions Fail:}
+    \begin{itemize}
+        \item Count-based CAC ignores heterogeneity.
+        \item Static thresholds waste capacity.
+    \end{itemize}
+    \item \textbf{Goal:} Maximize airtime utilization while guaranteeing strict QoS.
+  \end{itemize}
+\end{frame}
+
+% New Slide: Test Bed / Components
+\section{System Architecture}
+\begin{frame}{Research Test Bed \& Components}
+  \begin{columns}
+    \column{0.5\textwidth}
+      \textbf{Simulation Components (ns-3):}
+      \begin{itemize}
+          \item \textbf{AP Node:} Wi-Fi 6 (802.11ax), 80 MHz, 5 GHz.
+          \item \textbf{Stations:} 25-50 users in dense grid.
+          \item \textbf{Traffic Generators:}
+          \begin{itemize}
+              \item VoIP (UDP)
+              \item Video (UDP)
+              \item Bursty/Web (TCP/UDP)
+          \end{itemize}
+      \end{itemize}
+      
+    \column{0.5\textwidth}
+      \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{../results/graphs/ns3_network_topology.png}
+        \caption{NS-3 Network Topology Visualization}
+      \end{figure}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{System Model and Traffic}
+   \begin{columns}
+     \column{0.5\textwidth}
+       \textbf{Metric: Airtime Utilization}
+       \begin{equation*}
+          \alpha_c = \frac{R_c}{\eta \cdot R_{phy}^c}
+       \end{equation*}
+       
+       \vspace{1em}
+       \textbf{Traffic Mix:}
+       \begin{itemize}
+           \item \textbf{VoIP:} High Priority, Low Bandwidth.
+           \item \textbf{Video:} Med Priority, High Bandwidth.
+           \item \textbf{Best Effort:} Low Priority, Bursty.
+       \end{itemize}
+       
+     \column{0.5\textwidth}
+       \begin{figure}
+         \centering
+         \includegraphics[width=0.9\linewidth]{../results/graphs/ap_station_distribution.png}
+         \caption{AP and Station Distribution}
+       \end{figure}
+   \end{columns}
+\end{frame}
+
+% Section: Proposed Solution / Algorithms
+\section{Proposed AS-CAC Framework}
+
+\begin{frame}{Proposed Solution: Soft CAC}
+  \textbf{Concept:} Priority-Aware Thresholds.
+  
+  \begin{table}
+    \centering
+    \begin{tabular}{lcc}
+      \toprule
+      \textbf{Traffic Class} & \textbf{Priority} & \textbf{Threshold ($\theta_c$)} \\
+      \midrule
+      VoIP (AC\_VO) & High & 90\% \\
+      Video (AC\_VI) & Medium & 80\% \\
+      Best Effort (AC\_BE) & Low & \textbf{95\%} \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+  
+  \begin{figure}
+      \centering
+      \includegraphics[width=0.7\linewidth]{../results/graphs/soft_vs_hard_cac_comparison.png}
+      \caption{Soft vs Hard CAC Thresholding}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Algorithm: AS-CAC+ (Adaptive)}
+  \textbf{Dynamic Threshold Adjustment:}
+  \begin{itemize}
+      \item Monitors Packet Error Rate (PER) and Utilization.
+      \item Adjusts Best-Effort threshold ($\theta_{BE}$) in real-time.
+  \end{itemize}
+  
+  \vspace{0.5em}
+  
+  \begin{algorithm}[H]
+    \footnotesize
+    \caption{AS-CAC+ Adaptive Threshold}
+    \begin{algorithmic}[1]
+      \STATE \textbf{Input:} Utilization $A$, Threshold $\theta_{BE}$
+      \STATE $PER \gets$ Calculate from Network Health
+      \IF{$PER > 0.05$}
+          \STATE $\theta_{BE} \gets \max(0.80, \theta_{BE} - 0.01)$ \COMMENT{reduce load}
+      \ELSIF{$PER < 0.02$ AND $A > 0.70$}
+          \STATE $\theta_{BE} \gets \min(0.98, \theta_{BE} + 0.01)$ \COMMENT{utilize spare capacity}
+      \ENDIF
+      \STATE \textbf{Return:} Updated $\theta_{BE}$
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}{Adaptive Behavior Visualization}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.85\linewidth]{../results/graphs/ascac_threshold_evolution.png}
+        \caption{Dynamic Adaptation of Thresholds over Time}
+    \end{figure}
+\end{frame}
+
+
+% Section: Results
+\section{Performance Evaluation}
+
+\begin{frame}{Simulation Results: Latency}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{../results/graphs/cac_vs_no_cac.png}
+    \caption{Impact on Latency: No CAC vs AS-CAC}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Comprehensive Analysis}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{../results/graphs/ascac_comprehensive_4panel.png}
+    \caption{Throughput, Latency, Utilization, and Flow Count}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Multi-Dimensional Superiority}
+  \begin{columns}
+    \column{0.5\textwidth}
+      \begin{figure}
+        \centering
+        \includegraphics[width=\linewidth]{../results/graphs/ascac_radar_chart.png}
+      \end{figure}
+    \column{0.5\textwidth}
+      \textbf{Why AS-CAC+ Wins:}
+      \begin{itemize}
+          \item \textbf{Adaptability:} Reacts to interference.
+          \item \textbf{Utilization:} 97.4\% vs 78\% (Hard).
+          \item \textbf{Safety:} Keeps VoIP < 2ms.
+      \end{itemize}
+  \end{columns}
+\end{frame}
+
+% Section: Conclusion
+\section{Conclusion}
+\begin{frame}{Conclusion}
+  \begin{block}{Summary}
+    \begin{itemize}
+        \item \textbf{AS-CAC+} transforms admission control from static to dynamic.
+        \item It safely unlocks \textbf{19.2\% more capacity}.
+    \end{itemize}
+  \end{block}
+  
+  \vspace{1em}
+  
+  \begin{center}
+      \textbf{Thank You!}
+      \\
+      \vspace{1em}
+      \small{Dayanand Ambawade, Rohan Pawar}
+  \end{center}
+\end{frame}
+
+\end{document}
