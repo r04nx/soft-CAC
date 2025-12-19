@@ -21,16 +21,17 @@
 
 % --- Background Configuration ---
 % Define a command to switch to the "Content" background (no-header.png)
+% Define a command to switch to the "Content" background (bgnew.jpeg)
 \newcommand{\setcontentbg}{
     \usebackgroundtemplate{
-        \includegraphics[width=\paperwidth,height=\paperheight]{no-header.png}
+        \includegraphics[width=\paperwidth,height=\paperheight]{bgnew.jpeg}
     }
 }
 
-% Define a command to switch to the "Plain" background (bgnew.jpeg)
+% Define a command to switch to the "Plain" background (no-header.png)
 \newcommand{\setplainbg}{
     \usebackgroundtemplate{
-        \includegraphics[width=\paperwidth,height=\paperheight]{bgnew.jpeg}
+        \includegraphics[width=\paperwidth,height=\paperheight]{no-header.png}
     }
 }
 
@@ -65,7 +66,7 @@
 {
 \setplainbg
 \begin{frame}
-  \vspace{1.5cm} % Push content down to avoid overlapping with header
+  % \vspace{1.5cm} Removed vertical space to avoid overlap with footer graphic
   \titlepage
 \end{frame}
 }
