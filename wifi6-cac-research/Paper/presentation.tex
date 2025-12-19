@@ -1,18 +1,14 @@
-\documentclass[aspectratio=169]{beamer}
+\documentclass{beamer}
 
 % Theme selection
 \usetheme{metropolis}           % Use metropolis theme
-\metroset{background=light} % Optional: 'dark' or 'light' background.
+\metroset{background=light} % Optional: 'dark' or 'light' background. Let's stick to default (light) for safer printing, or dark if "attractive" means sleek. Let's try standard first, maybe add some color configuration.
 \metroset{block=fill}
 
 \usepackage{xcolor}
 \definecolor{spitred}{RGB}{179, 0, 0} % Deep red for SPIT
 \setbeamercolor{frametitle}{bg=spitred}
 \setbeamercolor{alerted text}{fg=spitred}
-
-\usebackgroundtemplate{%
-\includegraphics[width=\paperwidth,height=\paperheight]{background_content.png}%
-}
 
 \setbeamertemplate{navigation symbols}{} % Remove navigation symbols
 \setbeamertemplate{caption}[numbered]
@@ -23,45 +19,62 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
+% --- Background Configuration ---
+% Define a command to switch to the "Content" background (bgnew.jpeg)
+\newcommand{\setcontentbg}{
+    \usebackgroundtemplate{
+        \includegraphics[width=\paperwidth,height=\paperheight]{bgnew.jpeg}
+    }
+}
+
+% Define a command to switch to the "Plain" background (no-header.png)
+\newcommand{\setplainbg}{
+    \usebackgroundtemplate{
+        \includegraphics[width=\paperwidth,height=\paperheight]{no-header.png}
+    }
+}
+
+% Set default to Content background
+\setcontentbg
+
+% Hook to inject Section Slides with Plain background
+\AtBeginSection[]{
+  {
+    \setplainbg
+    \begin{frame}[standout]
+      \sectionpage
+    \end{frame}
+  }
+}
+
+
 % Metadata
 \title[Enhancing QoS in IEEE 802.11ax]{Enhancing QoS in Dense IEEE 802.11ax Networks using a Dynamic Airtime-Based Soft Admission Control Mechanism}
-\author[D. Ambawade, R. Pawar]{Dayanand Ambawade \and Rohan Pawar}
+\author[D. Ambawade]{Dayanand Ambawade}
 \institute[SPIT]{
   Department of Computer Science and Engineering\\
-  Department of Electronics \& Telecommunication\\
   Sardar Patel Institute of Technology (SPIT)\\
   Mumbai, India
 }
 \date[ICSCC 2025]{10th International Conference on Systems, Control and Communications (ICSCC 2025)\\Nagoya University, Japan}
 
-% Configuration for Section Slides (Centered content)
-% These should use the FULL background (with header)
-\AtBeginSection[]{
-  {
-    \usebackgroundtemplate{\includegraphics[width=\paperwidth,height=\paperheight]{background.png}}
-    \begin{frame}
-      \centering
-      \huge\textbf{\textcolor{spitred}{\insertsectionhead}}
-    \end{frame}
-  }
-}
-
 \begin{document}
 
 % Slide 1: Title
 {
-\usebackgroundtemplate{%
-\includegraphics[width=\paperwidth,height=\paperheight]{background.png}%
-}
+\setplainbg
 \begin{frame}
   \titlepage
 \end{frame}
 }
 
 % Slide 2: Outline
+{
+\setplainbg
 \begin{frame}{Outline}
   \tableofcontents
 \end{frame}
+}
 
 % Slide 3: Introduction
 \section{Introduction}
@@ -204,7 +217,7 @@
 \begin{frame}{Comprehensive Analysis}
   \begin{figure}
     \centering
-    \includegraphics[width=\linewidth,height=0.75\textheight,keepaspectratio]{../results/graphs/ascac_comprehensive_4panel.png}
+    \includegraphics[width=\linewidth]{../results/graphs/ascac_comprehensive_4panel.png}
     \caption{Throughput, Latency, Utilization, and Flow Count}
   \end{figure}
 \end{frame}
@@ -242,7 +255,7 @@
       \textbf{Thank You!}
       \\
       \vspace{1em}
-      \small{Dayanand Ambawade, Rohan Pawar}
+      \small{Dayanand Ambawade}
   \end{center}
 \end{frame}
 
