@@ -65,6 +65,7 @@
 {
 \setplainbg
 \begin{frame}
+  \vspace{1.5cm} % Push content down to avoid overlapping with header
   \titlepage
 \end{frame}
 }
@@ -76,6 +77,18 @@
   \tableofcontents
 \end{frame}
 }
+
+% ... (some lines skipped in context, handled by AllowMultiple logic if needed, but I'll focus on the specific frames)
+
+% Correction for Comprehensive Analysis Frame
+\begin{frame}{Comprehensive Analysis}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.85\linewidth,height=0.75\textheight,keepaspectratio]{../results/graphs/ascac_comprehensive_4panel.png}
+    \caption{Throughput, Latency, Utilization, and Flow Count}
+  \end{figure}
+\end{frame}
+
 
 % Slide 3: Introduction
 \section{Introduction}
@@ -215,13 +228,7 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{Comprehensive Analysis}
-  \begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{../results/graphs/ascac_comprehensive_4panel.png}
-    \caption{Throughput, Latency, Utilization, and Flow Count}
-  \end{figure}
-\end{frame}
+
 
 \begin{frame}{Multi-Dimensional Superiority}
   \begin{columns}
