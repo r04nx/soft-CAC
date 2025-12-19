@@ -1,9 +1,18 @@
-\documentclass{beamer}
+\documentclass[aspectratio=169]{beamer}
 
 % Theme selection
-\usetheme{Madrid}
-\usecolortheme{beaver} % Professional Red/Grey theme
-\usecolortheme{whale}
+\usetheme{metropolis}           % Use metropolis theme
+\metroset{background=light} % Optional: 'dark' or 'light' background.
+\metroset{block=fill}
+
+\usepackage{xcolor}
+\definecolor{spitred}{RGB}{179, 0, 0} % Deep red for SPIT
+\setbeamercolor{frametitle}{bg=spitred}
+\setbeamercolor{alerted text}{fg=spitred}
+
+\usebackgroundtemplate{%
+\includegraphics[width=\paperwidth,height=\paperheight]{background_content.png}%
+}
 
 \setbeamertemplate{navigation symbols}{} % Remove navigation symbols
 \setbeamertemplate{caption}[numbered]
@@ -19,17 +28,35 @@
 \author[D. Ambawade, R. Pawar]{Dayanand Ambawade \and Rohan Pawar}
 \institute[SPIT]{
   Department of Computer Science and Engineering\\
+  Department of Electronics \& Telecommunication\\
   Sardar Patel Institute of Technology (SPIT)\\
   Mumbai, India
 }
 \date[ICSCC 2025]{10th International Conference on Systems, Control and Communications (ICSCC 2025)\\Nagoya University, Japan}
 
+% Configuration for Section Slides (Centered content)
+% These should use the FULL background (with header)
+\AtBeginSection[]{
+  {
+    \usebackgroundtemplate{\includegraphics[width=\paperwidth,height=\paperheight]{background.png}}
+    \begin{frame}
+      \centering
+      \huge\textbf{\textcolor{spitred}{\insertsectionhead}}
+    \end{frame}
+  }
+}
+
 \begin{document}
 
 % Slide 1: Title
+{
+\usebackgroundtemplate{%
+\includegraphics[width=\paperwidth,height=\paperheight]{background.png}%
+}
 \begin{frame}
   \titlepage
 \end{frame}
+}
 
 % Slide 2: Outline
 \begin{frame}{Outline}
