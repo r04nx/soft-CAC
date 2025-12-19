@@ -10,7 +10,21 @@
 \setbeamercolor{frametitle}{bg=spitred}
 \setbeamercolor{alerted text}{fg=spitred}
 
-\setbeamertemplate{navigation symbols}{} % Remove navigation symbols
+\setbeamerfont{title}{size=\Large, series=\bfseries}
+\setbeamerfont{author}{size=\small}
+\setbeamerfont{date}{size=\scriptsize}
+\setbeamerfont{institute}{size=\tiny}
+
+\title[Enhancing QoS in IEEE 802.11ax]{Enhancing QoS in Dense IEEE 802.11ax Networks using a Dynamic Airtime-Based Soft Admission Control Mechanism}
+\author[Ambawade, Pawar]{Dayanand Ambawade\inst{1} \and Rohan Pawar\inst{2}}
+
+\institute[SPIT]{
+  \inst{1} Dept. of Computer Science and Engg.\\
+  \inst{2} Dept. of Electronics \& Telecommunication Engg.\\[-0.2em]
+  Sardar Patel Institute of Technology (SPIT), Mumbai, India
+}
+\date[ICSCC 2025]{10th International Conference on Systems, Control and Communications (ICSCC 2025)\\Nagoya University, Japan}
+
 \setbeamertemplate{caption}[numbered]
 
 \usepackage{graphicx}
@@ -20,7 +34,6 @@
 \usepackage{algorithmic}
 
 % --- Background Configuration ---
-% Define a command to switch to the "Content" background (no-header.png)
 % Define a command to switch to the "Content" background (no-header.png)
 \newcommand{\setcontentbg}{
     \usebackgroundtemplate{
@@ -48,26 +61,13 @@
   }
 }
 
-
-% Metadata
-\title[Enhancing QoS in IEEE 802.11ax]{Enhancing QoS in Dense IEEE 802.11ax Networks using a Dynamic Airtime-Based Soft Admission Control Mechanism}
-\author[Ambawade, Pawar]{Dayanand Ambawade\inst{1} \and Rohan Pawar\inst{2}}
-\institute[SPIT]{
-  \scriptsize
-  \inst{1} Department of Computer Science and Engineering\\
-  \inst{2} Department of Electronics \& Telecommunication Engineering\\[-0.5em]
-  Sardar Patel Institute of Technology (SPIT)\\
-  Mumbai, India
-}
-\date[ICSCC 2025]{\footnotesize 10th International Conference on Systems, Control and Communications (ICSCC 2025)\\Nagoya University, Japan}
-
 \begin{document}
 
 % Slide 1: Title
 {
 \setplainbg
 \begin{frame}
-  \vspace{0.1cm}
+  \vspace{1.5cm}
   \titlepage
 \end{frame}
 }
