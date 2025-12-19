@@ -20,17 +20,17 @@
 \usepackage{algorithmic}
 
 % --- Background Configuration ---
-% Define a command to switch to the "Content" background (bgnew.jpeg)
+% Define a command to switch to the "Content" background (no-header.png)
 \newcommand{\setcontentbg}{
     \usebackgroundtemplate{
-        \includegraphics[width=\paperwidth,height=\paperheight]{bgnew.jpeg}
+        \includegraphics[width=\paperwidth,height=\paperheight]{no-header.png}
     }
 }
 
-% Define a command to switch to the "Plain" background (no-header.png)
+% Define a command to switch to the "Plain" background (bgnew.jpeg)
 \newcommand{\setplainbg}{
     \usebackgroundtemplate{
-        \includegraphics[width=\paperwidth,height=\paperheight]{no-header.png}
+        \includegraphics[width=\paperwidth,height=\paperheight]{bgnew.jpeg}
     }
 }
 
@@ -50,9 +50,10 @@
 
 % Metadata
 \title[Enhancing QoS in IEEE 802.11ax]{Enhancing QoS in Dense IEEE 802.11ax Networks using a Dynamic Airtime-Based Soft Admission Control Mechanism}
-\author[D. Ambawade]{Dayanand Ambawade}
+\author[Ambawade, Pawar]{Dayanand Ambawade\inst{1} \and Rohan Pawar\inst{2}}
 \institute[SPIT]{
-  Department of Computer Science and Engineering\\
+  \inst{1} Department of Computer Science and Engineering\\
+  \inst{2} Department of Electronics \& Telecommunication Engineering\\
   Sardar Patel Institute of Technology (SPIT)\\
   Mumbai, India
 }
@@ -255,7 +256,7 @@
       \textbf{Thank You!}
       \\
       \vspace{1em}
-      \small{Dayanand Ambawade}
+      \small{Dayanand Ambawade, Rohan Pawar}
   \end{center}
 \end{frame}
 
