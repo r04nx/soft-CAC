@@ -66,9 +66,15 @@
 % Slide 1: Title
 {
 \setplainbg
+\setbeamertemplate{footline}{} % Remove page number/footer for this slide
 \begin{frame}
-  \vspace{1.5cm}
-  \titlepage
+  \vspace{1.1cm}
+  \begin{columns}
+    \column{0.85\textwidth}
+      \titlepage
+    \column{0.15\textwidth}
+      % Empty space for background graphic
+  \end{columns}
 \end{frame}
 }
 
