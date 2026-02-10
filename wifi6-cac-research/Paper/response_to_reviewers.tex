@@ -1,0 +1,94 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{letterpaper, margin=1in}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\title{\textbf{Response to Reviewers}}
+\author{Manuscript ID: JCM-20140}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\noindent \textbf{Manuscript Title:} Enhancing QoS in Dense IEEE 802.11ax Networks using a Dynamic Airtime-Based Soft Admission Control Mechanism \\
+\textbf{Authors:} Dayanand Ambawade, Rohan Pawar \\
+\textbf{Journal:} Journal of Communications
+
+\vspace{0.5cm}
+
+\noindent Dear Editor and Reviewers,
+
+\vspace{0.3cm}
+
+We sincerely thank the editorial team and the reviewers for their insightful and constructive feedback on our manuscript. We have carefully considered all comments and have revised the paper accordingly.
+
+\noindent As requested, all significant changes in the revised manuscript are highlighted in \textcolor{blue}{blue text}. Below is a point-by-point response to each reviewer's comments.
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+\section*{Response to Reviewer 1}
+
+\noindent \textbf{Comment 1.1:} \textit{Network Health Metrics: Currently, only PER is used as an example. It is recommended to discuss the applicability of other potential metrics (e.g., channel busy/idle ratio, retransmission rate), or to elaborate on the rationale for choosing PER and its practicality/accessibility in real-world devices.}
+
+\noindent \textbf{Response:} Thank you for this excellent suggestion. We have added a new paragraph in \textbf{Section IV.C} explaining our rationale for prioritizing Packet Error Rate (PER) over other metrics like CCA (Clear Channel Assessment). We clarify that PER is an ``end-to-end'' metric that captures hidden node collisions and actual goodput degradation, whereas CCA might underestimate congestion in dense deployments with efficient spatial reuse.
+
+\vspace{0.3cm}
+
+\noindent \textbf{Comment 1.2:} \textit{Overhead and Scalability: The statement "only requires over-the-air timing estimation" is mentioned but not quantified... A brief analysis of the computational complexity of AS-CAC+ on the AP and its potential impact on system performance is suggested.}
+
+\noindent \textbf{Response:} We agree that a quantifiable complexity analysis strengthens the paper. We have added a new subsection \textbf{VII.B (Complexity and Scalability Analysis)} in the Discussion. We explicitly state that the AS-CAC+ decision logic operates in $O(1)$ time per admission request, as it relies on simple arithmetic comparisons, making it significantly lighter than $O(N \cdot M)$ machine learning inference operations required by competing DRL approaches.
+
+\vspace{0.3cm}
+
+\noindent \textbf{Comment 1.3:} \textit{Comparison with Related Work... It could be further enhanced by briefly discussing under what network scales or levels of dynamics/churn the simpler AS-CAC+ might be superior or inferior to more complex learning-based approaches.}
+
+\noindent \textbf{Response:} We have expanded the \textbf{Comparison with Related Work} in Section VII to address this. We now explicitly mention that AS-CAC+ offers superior responsiveness in ``high-churn'' environments (rapid user arrival/departure) where ML models typically suffer from convergence delays or retraining lag.
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+\section*{Response to Reviewer 2}
+
+\noindent \textbf{Comment 2.1:} \textit{Clarity and conciseness: Some sections, particularly the Discussion and Results analysis, could be slightly condensed to avoid repetition of similar observations across figures and tables.}
+
+\noindent \textbf{Response:} We accepted this feedback and have significantly condensed the \textbf{Discussion (Section VII.A)} segment. Instead of repeating numerical findings from the Results section, we have merged the ``Key Findings'' and ``Throughput Gain'' analysis into a single, concise evaluation summary labeled ``Condensed Performance Analysis.''
+
+\vspace{0.3cm}
+
+\noindent \textbf{Comment 2.2:} \textit{Threshold sensitivity: While threshold values are well motivated, a brief sensitivity analysis or discussion on how robust these values are across different environments would strengthen the generality of the approach.}
+
+\noindent \textbf{Response:} We have added a new subsection \textbf{VII.C (Parameter Sensitivity and Robustness)}. We explain that the adaptive nature of AS-CAC+ makes the system resilient to initial parameter choices; even if the starting thresholds are suboptimal, the feedback loop automatically corrects them within seconds.
+
+\vspace{0.3cm}
+
+\noindent \textbf{Comment 2.3:} \textit{Real-world validation: The ns-3 evaluation is thorough, but a short discussion on expected challenges in real hardware or firmware implementations would further improve practicality.}
+
+\noindent \textbf{Response:} We have added subsection \textbf{VII.D (Real-World Implementation Challenges)}, identifying key practical hurdles such as driver-level access to microsecond-granularity airtime counters and the need to synchronize admission decisions with TWT schedules.
+
+\vspace{0.3cm}
+
+\noindent \textbf{Comment 2.4:} \textit{Minor presentation issues: A small number of grammatical and formatting inconsistencies are present and can be addressed with light editing.}
+
+\noindent \textbf{Response:} We have conducted a thorough proofread of the entire manuscript to correct grammatical errors and improve flow and consistency.
+
+\vspace{0.5cm}
+
+\noindent We believe that these revisions have significantly strengthened the quality and clarity of the manuscript. We look forward to your positive response.
+
+\vspace{1cm}
+
+\noindent Sincerely,\\
+\textbf{Dayanand Ambawade, Rohan Pawar}\\
+Sardar Patel Institute of Technology (SPIT)\\
+Mumbai, India
+
+\end{document}

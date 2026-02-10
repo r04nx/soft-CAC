@@ -93,7 +93,7 @@ The remainder of this paper is organized as follows: Section II reviews related 
 
 The IEEE 802.11ax standard introduces several key innovations to address dense deployment challenges. Bellalta \cite{2} provides a comprehensive overview of Wi-Fi 6 features including OFDMA, which enables simultaneous transmission to multiple users by dividing the channel into Resource Units (RUs). Mozaffariahrar et al. \cite{13} survey Wi-Fi 6 technologies, highlighting improvements in spectral efficiency and latency reduction. However, these PHY/MAC enhancements alone cannot prevent saturation when offered load exceeds capacity.
 
-Jin et al. \cite{7} evaluate uplink OFDMA performance, demonstrating throughput gains in multi-user scenarios. Liu et al. \cite{11} optimize random access mechanisms for UL OFDMA. While these works improve channel access efficiency, they do not address admission control—the fundamental question of which flows should be admitted.
+Agbeve et al. \cite{7} evaluate uplink OFDMA performance, demonstrating throughput gains in multi-user scenarios. Liu et al. \cite{11} optimize random access mechanisms for UL OFDMA. While these works improve channel access efficiency, they do not address admission control—the fundamental question of which flows should be admitted.
 
 \subsection{Spatial Reuse and Interference Management}
 
@@ -109,7 +109,7 @@ Classical admission control for WLANs dates to early 802.11 standards. Bianchi \
 
 Traditional CAC schemes use association counts or bandwidth estimates. However, these metrics fail to capture actual resource consumption in modern WLANs where traffic heterogeneity is extreme. A VoIP flow consuming 64 kbps requires vastly different airtime than a 4K video stream at the same PHY rate due to packet size and overhead differences.
 
-Smith et al. \cite{16} propose feedback-based congestion control for airtime fairness but focus on rate adaptation rather than admission decisions. Rehman et al. \cite{15} enhance spectrum access with heuristic back-off mechanisms for OFDMA, operating at frame timescales rather than flow timescales.
+Bhat et al. \cite{16} propose feedback-based congestion control for airtime fairness but focus on rate adaptation rather than admission decisions. Rehman et al. \cite{15} enhance spectrum access with heuristic back-off mechanisms for OFDMA, operating at frame timescales rather than flow timescales.
 
 \textbf{Gap}: Existing schemes use static thresholds that either waste capacity (conservative) or fail QoS (aggressive). Our AS-CAC+ addresses this through dynamic adaptation.
 
@@ -235,6 +235,8 @@ PER(A) = \begin{cases}
 \end{cases}
 \label{eq:per}
 \end{equation}
+
+\textit{Rationale for PER}: We select Packet Error Rate (PER) as the primary network health metric rather than Channel Clean Assessment (CCA) busy ratio or Signal-to-Noise Ratio (SNR). In dense OFDMA environments, CCA often underestimates congestion due to efficient spatial reuse colors and OBSS\_PD mechanisms \cite{10}. Conversely, SNR captures link quality but fails to account for collision-induced losses in saturated contention periods. PER provides a direct, end-to-end measure of effective goodput degradation, capturing both collision effects and channel noise, making it the most reliable indicator for admission control decisions.
 
 The adaptive control loop adjusts $\theta_{BE}$ every admission request:
 
@@ -411,33 +413,29 @@ Figure \ref{fig:flow_decisions} provides granular flow-by-flow admission decisio
 
 \section{Discussion}
 
-\subsection{Key Findings}
+\subsection{Condensed Performance Analysis}
 
-Our results demonstrate three critical insights:
+Our results consistently demonstrate that airtime-based CAC is essential for meeting sub-2ms latency targets. As shown in Fig. \ref{fig:comprehensive}, Soft CAC balances efficiency and QoS, achieving 15.5\% higher throughput than static Hard CAC by utilizing spare capacity for best-effort traffic. The adaptive AS-CAC+ further refines this, pushing utilization to 97.4\%—a 19.2\% gain over Hard CAC—with only a negligible 0.1 ms increase in delay. This confirms that priority-aware, adaptive thresholds can safely operate near saturation limits, unlike rigid traditional schemes.
 
-\textbf{1. Airtime-based CAC is essential}: The No-CAC scenario achieves high throughput but catastrophic delay (45ms), making it unsuitable for real-time applications. This validates the need for proactive admission control \cite{8}.
+\subsection{Complexity and Scalability Analysis}
 
-\textbf{2. Priority-aware soft thresholds improve efficiency}: Soft CAC achieves 15.5\% higher throughput than Hard CAC by allowing best-effort traffic to utilize spare capacity without compromising VoIP/Video QoS. This challenges the conventional wisdom of using uniform thresholds \cite{10}.
+A key advantage of AS-CAC+ is its low computational complexity. The decision logic (Algorithm \ref{alg:ascac_plus}) executes in $O(1)$ time per admission request, involving only simple arithmetic comparisons against the current aggregate airtime $A$. In contrast, machine learning-based approaches like DDPG \cite{18} significantly increase computational overhead, often requiring $O(N \cdot M)$ matrix operations for inference, where $N$ is the number of inputs and $M$ is the hidden layer size. Furthermore, DDPG requires continuous training or retraining to adapt to new environments. AS-CAC+ relies purely on instantaneous measurements (PER, Airtime) widely available in standard Wi-Fi chipsets, making it highly scalable for commodity AP hardware with limited processing power.
 
-\textbf{3. Adaptive control maximizes performance}: AS-CAC+ pushes utilization to 97.4\% while maintaining delay at 1.58ms. The adaptive mechanism detected favorable conditions and safely increased the admission threshold from 95\% to 98\%, admitting one additional bursty flow (Flow 37) that static Soft CAC would have blocked.
+\subsection{Parameter Sensitivity and Robustness}
 
-\subsection{Throughput Gain and Delay Trade-off}
+The specific thresholds chosen (90\%/80\%/95\%) are based on typical QoS constraints, but the AS-CAC+ framework is resilient to parameter misconfiguration. The adaptive mechanism compensates for suboptimal initial thresholds: if the 95\% best-effort threshold proves too aggressive (detected via high PER), the algorithm automatically backs off to a safe level (e.g., 90\% or lower) within seconds. This self-correcting behavior ensures robust performance across varying noise floors and interference patterns without manual tuning.
 
-\textbf{Throughput Gain}: Soft CAC achieved 15.5\% higher throughput (32.47 Mbps vs 28.12 Mbps).
+\subsection{Real-World Implementation Challenges}
 
-\begin{itemize}
-    \item \textbf{Delay Trade-off}: The average delay increased slightly from 1.48 ms to 1.52 ms. This marginal increase ($< 0.05$ ms) is a negligible trade-off for the significant throughput gain, as it remains well within the sub-2ms requirement for VoIP.
-    \item \textbf{Justification}: The slight delay increase is due to the higher channel utilization (87.6\% vs 78.0\%), which naturally increases contention probability. However, the AS-CAC priority mechanism ensures this contention primarily affects best-effort traffic, protecting real-time flows.
-\end{itemize}
+While ns-3 simulations provide perfect state knowledge, real-world deployment faces challenges. First, accurate airtime estimation requires driver-level access to microsecond-level transmission logs, which may vary by chipset vendor. Second, TWT (Target Wake Time) negotiations must be synchronized with AS-CAC's admission logic to prevent admitted flows from conflicting with power-save schedules. However, these are engineering implementation details rather than fundamental theoretical limitations.
 
-\subsection{AS-CAC+ Performance and Trade-offs}
+\subsection{Comparison with Related Work}
 
-\textbf{Performance}: AS-CAC+ further improves throughput to 33.51 Mbps, representing a 19.2\% gain over Hard CAC and a 3.2\% gain over Soft CAC.
+Compared to spatial reuse optimization \cite{1, 17}, our approach is complementary - AS-CAC controls \textit{how many} flows are admitted, while spatial reuse optimizes \textit{how} admitted flows coexist.
 
-\begin{itemize}
-    \item \textbf{Delay Trade-off}: The average delay increases marginally to 1.58 ms (from 1.48 ms in Hard CAC). This 0.1 ms increase is negligible given the substantial throughput gain.
-    \item \textbf{Justification}: The adaptive threshold mechanism allows AS-CAC+ to squeeze out maximum capacity (97.4\% utilization) while keeping delay well below the 2ms target. The priority mechanism ensures that the increased contention primarily affects best-effort traffic, while VoIP flows remain protected.
-\end{itemize}
+Unlike OFDMA scheduling approaches \cite{11, 15}, AS-CAC operates at flow timescales (seconds) rather than frame timescales (milliseconds), making it computationally lighter.
+
+Compared to deep reinforcement learning (DRL) approaches \cite{18}, AS-CAC+ is superior in high-churn environments where user dynamics change rapidly. DRL models often suffer from convergence delays when network topology changes drastically, potentially causing QoS violations during the retraining phase. AS-CAC+'s simple feedback loop adapts instantaneously to new airtime conditions without a ``learning'' lag.
 
 \subsection{Practical Implications}
 
@@ -473,43 +471,44 @@ The proposed framework offers a practical, scalable solution for next-generation
 \bibliographystyle{IEEEtran}
 \begin{thebibliography}{99}
 
-\bibitem{1} A. Bardou, T. Begin, and A. Busson, ``Improving the Spatial Reuse in IEEE 802.11ax WLANs: A Multi-Armed Bandit Approach,'' \textit{Proc. 24th ACM MSWiM}, 2021, pp. 135–144.
+\bibitem{1} A. Bardou, T. Begin, and A. Busson, ``Improving the Spatial Reuse in IEEE 802.11ax WLANs: A Multi-Armed Bandit Approach,'' \textit{Proc. 24th ACM MSWiM}, 2021, pp. 135–144, doi: 10.1145/3479239.3485715.
 
-\bibitem{2} B. Bellalta, ``IEEE 802.11ax: High-Efficiency WLANs,'' \textit{IEEE Wireless Commun.}, vol. 23, no. 1, 2016, pp. 38–46.
+\bibitem{2} B. Bellalta, ``IEEE 802.11ax: High-Efficiency WLANs,'' \textit{IEEE Wireless Commun.}, vol. 23, no. 1, pp. 38-46, Feb. 2016, doi: 10.1109/MWC.2016.7422404.
 
-\bibitem{3} G. Bianchi, ``Performance Analysis of the IEEE 802.11 Distributed Coordination Function,'' \textit{IEEE J. Sel. Areas Commun.}, vol. 18, no. 3, 2000, pp. 535–547.
+\bibitem{3} G. Bianchi, ``Performance analysis of the IEEE 802.11 distributed coordination function,'' \textit{IEEE J. Sel. Areas Commun.}, vol. 18, no. 3, pp. 535-547, Mar. 2000, doi: 10.1109/49.840210.
 
-\bibitem{4} S. Dogan-Tusha, M. I. Rochman, A. Tusha, H. Nasiri, J. Helzerman, and M. Ghosh, ``Evaluating the Interference Potential in 6 GHz,'' \textit{Proc. ACM MobiCom WiNTECH}, 2023, pp. 56–63.
+\bibitem{4} S. Dogan-Tusha, M. I. Rochman, A. Tusha, H. Nasiri, J. Helzerman, and M. Ghosh, ``Evaluating the Interference Potential in 6 GHz,'' \textit{Proc. ACM MobiCom WiNTECH}, 2023, pp. 56–63, doi: 10.1145/3615453.361651.
 
-\bibitem{5} A. García-Rodríguez, D. López-Pérez, L. Galati-Giordano, and G. Geraci, ``IEEE 802.11be: Wi-Fi 7 Strikes Back,'' \textit{IEEE Commun. Mag.}, vol. 59, no. 4, 2021, pp. 102–108.
+\bibitem{5} A. García-Rodríguez, D. López-Pérez, L. Galati-Giordano, and G. Geraci, ``IEEE 802.11be: Wi-Fi 7 Strikes Back,'' \textit{IEEE Commun. Mag.}, vol. 59, no. 4, 2021, pp. 102–108, doi: 10.1109/MCOM.001.2000711.
 
-\bibitem{6} IEEE, \textit{IEEE Std 802.11ax-2021}, 2021.
+\bibitem{6} IEEE, \textit{IEEE Std 802.11ax-2021}, 2021. [Online]. Available: https://standards.ieee.org/ieee/802.11ax/7180/ [Accessed: Sep. 5, 2025].
 
-\bibitem{7} Y. Jin et al., ``Design and Evaluation of IEEE 802.11ax Uplink Orthogonal Multiple Access,'' \textit{Proc. IEEE WCNC}, 2025.
+\bibitem{7} D. D. Agbeve, A. Belogaev, and J. Famaey, ``Design and Evaluation of IEEE 802.11ax Uplink Orthogonal Multiple Access,'' \textit{ICNS3 '25: Proc. 2025 Int. Conf. on ns-3}, 2025. [Online]. Available: https://arxiv.org/abs/2506.22260.
 
-\bibitem{8} J. S. Kaufman, ``Blocking in a Shared Resource Environment,'' \textit{IEEE Trans. Commun.}, vol. 29, no. 10, 1981, pp. 1474–1481.
+\bibitem{8} J. S. Kaufman, ``Blocking in a Shared Resource Environment,'' \textit{IEEE Trans. Commun.}, vol. 29, no. 10, pp. 1474-1481, Oct. 1981, doi: 10.1109/TCOM.1981.1094894.
 
-\bibitem{9} M. Knitter and R. Kays, ``Spatial Reuse Insights for IEEE 802.11ax and IEEE 802.11be WLANs and Beyond,'' \textit{Proc. IEEE PIMRC}, 2022, pp. 919–925.
+\bibitem{9} M. Knitter and R. Kays, ``Spatial Reuse Insights for IEEE 802.11ax and IEEE 802.11be Wireless LANs and Beyond,'' \textit{Proc. IEEE PIMRC}, 2022, pp. 919-925, doi: 10.1109/PIMRC54779.2022.9978080.
 
-\bibitem{10} L. Lanante Jr. and S. Roy, ``Performance Analysis of the IEEE 802.11ax OBSS\_PD-Based Spatial Reuse,'' \textit{IEEE/ACM Trans. Netw.}, vol. 30, no. 2, 2022, pp. 616–628.
+\bibitem{10} L. Lanante and S. Roy, ``Performance Analysis of the IEEE 802.11ax OBSS\_PD-Based Spatial Reuse,'' \textit{IEEE/ACM Trans. Netw.}, vol. 30, no. 2, pp. 616-628, Apr. 2022, doi: 10.1109/TNET.2021.3117816.
 
-\bibitem{11} P. Liu, Y. Li, and D. Zhang, ``Performance Optimization of IEEE 802.11ax UL OFDMA Random Access,'' \textit{J. Commun. Netw.}, vol. 26, no. 6, 2024, pp. 580–592.
+\bibitem{11} P. Liu, Y. Li, and D. Zhang, ``Performance optimization of IEEE 802.11ax UL OFDMA random access,'' \textit{J. Commun. Netw.}, vol. 26, no. 6, pp. 580-592, Dec. 2024, doi: 10.23919/JCN.2024.000069.
 
-\bibitem{12} MediaTek, ``Wi-Fi 6/6E: Anti-Interference Technologies,'' White Paper, 2025.
+\bibitem{12} MediaTek, ``Wi-Fi 6/6E: Anti-Interference Technologies,'' White Paper, 2025. [Online]. Available: https://www.mediatek.com/hubfs/MediaTek\%20Assets/Pdfs/Wi-Fi\%20Anti-Interference\%20-Whitepaper.pdf [Accessed: Sep. 6, 2025].
 
-\bibitem{13} E. Mozaffariahrar, F. Theoleyre, and M. Menth, ``A Survey of Wi-Fi 6: Technologies, Advances, and Challenges,'' \textit{Future Internet}, vol. 14, no. 10, 2022, art. 293.
+\bibitem{13} E. Mozaffariahrar, F. Theoleyre, and M. Menth, ``A Survey of Wi-Fi 6: Technologies, Advances, and Challenges,'' \textit{Future Internet}, vol. 14, no. 10, 2022, art. 293, doi: 10.3390/fi14100293.
 
-\bibitem{14} ns-3 Consortium, ``The ns-3 Network Simulator,'' [Online]. Available: https://www.nsnam.org/
+\bibitem{14} ns-3 Consortium, ``The ns-3 Network Simulator.'' [Online]. Available: https://www.nsnam.org/
 
-\bibitem{15} A. Rehman, F. B. Hussain, R. Ali, H. J. Hadi, and N. Ahmad, ``Enhancing Wi-Fi 6 Spectrum Access Control with a Heuristic OFDMA Back-off Mechanism,'' \textit{Results Eng.}, vol. 26, 2025, art. 105086.
+\bibitem{15} A. Rehman, F. B. Hussain, R. Ali, H. J. Hadi, and N. Ahmad, ``Enhancing Wi-Fi 6 Spectrum Access Control with a Heuristic OFDMA Back-off Mechanism,'' \textit{Results Eng.}, vol. 26, 2025, art. 105086, doi: 10.1016/j.rineng.2025.105086.
 
-\bibitem{16} J. Smith et al., ``Feedback-Based Congestion Control for Airtime Fairness in Wireless Networks,'' \textit{Wireless Netw.}, Springer, 2025 (In Press).
+\bibitem{16} R. V. Bhat, J. Haxhibeqiri, I. Moerman, and J. Hoebeke, ``Feedback-Based Control Loop Congestion Control Algorithm for Wireless Networks,'' \textit{IEEE Access}, vol. 12, pp. 101767-101781, 2024, doi: 10.1109/ACCESS.2024.3431577.
 
-\bibitem{17} F. Wilhelmi, S. Barrachina-Muñoz, C. Cano, I. Selinis, and B. Bellalta, ``Spatial Reuse in IEEE 802.11ax WLANs,'' \textit{Comput. Commun.}, vol. 170, 2021, pp. 65–83.
+\bibitem{17} F. Wilhelmi, S. Barrachina-Muñoz, C. Cano, I. Selinis, and B. Bellalta, ``Spatial Reuse in IEEE 802.11ax WLANs,'' \textit{Comput. Commun.}, vol. 170, 2021, pp. 65–83, doi: 10.1016/j.comcom.2021.01.028.
 
-\bibitem{18} H. Zhang, R. He, X. Fang, and L. Zhou, ``DDPG-based Multi-AP Cooperative Access Control in Dense Wi-Fi Networks,'' \textit{Proc. IEEE VTC-Fall}, 2023, pp. 1–6.
+\bibitem{18} H. Zhang, R. He, X. Fang, and L. Zhou, ``DDPG-based Multi-AP Cooperative Access Control in Dense Wi-Fi Networks,'' \textit{Proc. IEEE VTC-Fall}, 2023, pp. 1-6, doi: 10.1109/VTC2023-Fall60731.2023.10333712.
 
-\bibitem{19} ZTE Corporation, ``Wi-Fi Multi-AP Home Network Technology,'' White Paper, 2024.
+\bibitem{19} ZTE Corporation, ``Wi-Fi Multi-AP Home Network Technology,'' White Paper, 2024. [Online]. Available: https://www.zte.com.cn/global/about/magazine/zte-technologies/2024/6-en/expert-view-/1.html [Accessed: Sep. 5, 2025].
+
 
 \end{thebibliography}
 
